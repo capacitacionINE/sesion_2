@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Proyecto Estratégico Servicios Compartidos para la Producción Estadística (SSCC)</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <meta name="date" content="2020-08-20" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+class: center, middle
+
+.linea-superior[]
+.linea-inferior[]
+
+
+&lt;img src="imagenes/logo_portada2.png" width="200" /&gt;
+
+
+## Capacitación en R
+
+## Procesamiento de bases de datos
+
+### Agosto 2020
+
+
+
+
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Contenidos de hoy
+
+&lt;br&gt;&lt;br&gt;
+
+- Importación de datos a R (.csv, .xlsx, .dta, .sav)
+
+&lt;br&gt;
+
+- Herramientas básicas para la manipulación de data.frames.
+
+&lt;br&gt;
+
+- Encadenamiento de instrucciones: uso de **pipes**.
+
+&lt;br&gt;
+
+- Agrupación de unidades (**group_by**).
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+Antes de avanzar, una recopilación de los puntos vistos en la primera sesión y que serán necesarios en esta sesión
+
+--
+
+- Funciones
+
+
+```r
+# Argumentos
+args(round)
+```
+
+```
+## function (x, digits = 0) 
+## NULL
+```
+
+```r
+# Función
+round(x = 4.949, digits = 1)
+```
+
+```
+## [1] 4.9
+```
+
+--
+
+- Función de ayuda
+
+
+```r
+help(round)
+?round
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+- Paquetes (`packages`)
+
+Durante esta jornada, utilizaremos algunas funciones del paquete `dplyr`.
+
+--
+
+Para poder acceder a esas funciones, debemos instalar el paquete...
+
+
+```r
+install.packages(dplyr)
+```
+
+--
+
+...y luego debemos cargar la librería
+
+
+```r
+library(dplyr)
+```
+
+Si no se carga la librería, no se podrán utilizar las funciones del paquete
+
+--
+
+¿Cuál es la diferencia entre un paquete y una librería?
+
+--
+
+Los paquetes corresponden a una colección de funciones de R, de datos y de códigos compilados. Las librerías corresponden al lugar en el que se guardan los paquetes.
+
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+- Vectores
+
+
+```r
+character = c("gato", "perro")
+numeric   = c(8, 15.9, -2.1)  # números reales
+integer   = c(2L, 4L) # L indica que son enteros
+logical   = c(TRUE, FALSE, TRUE)
+complex   = 3 + 4i
+```
+
+--
+
+Los vectores son atómicos. &lt;b&gt;¿Qué significa esto?&lt;/b&gt;
+
+--
+
+- Tipo de elementos
+
+
+```r
+v &lt;-  c("gato", 1)
+class(v)
+```
+
+```
+## [1] "character"
+```
+
+```r
+v &lt;-  c(1L, 2.2)
+typeof(v)
+```
+
+```
+## [1] "double"
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+- Operadores matemáticos
+
+
+```r
+x + y   # suma
+x - y   # resta
+x * y   # multiplicación
+x / y   # división
+x ^ y   # exponenciación
+x %% y  # módulo
+x %/% y # cociente
+```
+
+- Operadores relacionales
+
+
+```r
+x &lt; y     # x menor que y
+x &gt; y     # x mayor que y
+x &lt;= y    # x menor o igual que y
+x &gt;= y    # x mayor o igual que y
+x == y    # x igual a y
+x != y    # x distinto a y
+x %/% y   # x cociente y
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+- Operadores lógicos (booleanos)
+
+
+```r
+x | z     # x o z es verdadero
+x &amp; z     # x y z son verdaderos
+!x        # x no es verdadero (negación)
+isTRUE(x) # x es verdadero (afirmación)
+```
+
+--
+
+- Secuencias
+
+
+```r
+seq(from = 0, to = 100, length = 5)
+```
+
+```
+## [1]   0  25  50  75 100
+```
+
+--
+
+- Indexación
+
+
+```r
+seq(from = 0, to = 100, length = 5)[3]  # El tercer elemento
+```
+
+```
+## [1] 50
+```
+
+```r
+c(1:2, "perro", 10:12)[5] # El quinto elemento
+```
+
+```
+## [1] "11"
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Breve resumen
+
+- Operaciones con vectores
+
+
+```r
+c(1, 2) + c(2, 5, 6)  # suma de vectores
+```
+
+```
+## [1] 3 7 7
+```
+
+```r
+c(2 &gt; 1) &amp; c(2 == 1, 2 &lt; 100) # operaciones lógicas
+```
+
+```
+## [1] FALSE  TRUE
+```
+
+--
+
+- Dataframes
+
+Es el formato más común al que nos enfretamos diariamente en hojas de cálculo en programas como Excel, SPSS, STATA, etc.
+
+Podemos entender un data.frame como un conjunto de vectores que tienen la misma longitud y que conforman una tabla (i.e. toman forma rectangular)
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Importación de datos
+
+&lt;img src="imagenes/import.jpg" width=95% /&gt;
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Importación de datos
+
+&lt;b&gt;R&lt;/b&gt; tiene distintos paquetes para importar datos:
+
+--
+
+- El paquete `readr` nos permite importar archivos delimitados (.csv, .txt, .tab). Para importar archivos ".csv" existe la función read_csv()
+
+
+```r
+# Para usar el paquete primero es necesario cargarlo
+library(readr)
+
+# Al usar la función, asignamos el archivo a un valor
+base_csv  &lt;-  read_csv(file = "ejemplo.csv")
+```
+
+--
+
+- El paquete `readxl` nos permite importar archivos de Excel. Una de sus funciones es read_excel().
+
+
+```r
+# Para usar el paquete primero es necesario cargarlo
+library(readxl)
+
+# Al usar la función, asignamos el archivo a un valor
+base_excel  &lt;-  read_excel(file = "ejemplo_excel.xlsx", sheet="Hoja1")
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Importación de datos
+
+Tanto las funciones de `readr` como `readxl` tienen argumentos que permiten setear distintas opciones para la importación.
+
+--
+
+.pull-left[
+### `readr`
+
+- Cambiar nombres de columnas
+
+- Saltarse líneas al momento de importar
+
+- Recodificar valores perdidos
+]
+
+.pull-right[
+### `readxl`
+
+- Leer un rango específico de la hoja de cálculo
+
+- Cambiar nombres de columnas
+
+- Saltarse líneas al momento de importar
+
+- Recodificar valores perdidos
+]
+
+--
+
+&lt;br&gt;
+.center[
+El ejercicio de esta clase gira en torno a otro tipo de base de datos, por lo que dejaremos que estas opciones puedan ser exploradas por su cuenta (`?readr`, `?readxl`)
+]
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Importación de datos
+
+.pull-left[
+Para importar archivos guardados desde Stata o SPSS existe el paquete `haven`.
+
+Al igual que los paquetes `readxl` o `readr` tiene funciones bastante explícitas respecto de lo que hacen:
+
+- **SPSS**: `read_sav()` permite importar archivos ".sav".
+
+- **Stata**: `read_dta()` permite importar archivos ".dta".
+]
+
+.pull-right[
+.center[
+![](imagenes/logo_haven.png)
+]
+]
+
+
+```r
+# Cargar librería
+library(haven)
+# Se puede importar una base de datos desde una carpeta...
+esi &lt;-  read_dta("data/esi_2018_personas.dta")
+# ...o se puede descargar desde un sitio web
+esi &lt;-  read_csv("http://www.ine.cl/docs/default-source/encuesta-suplementaria-de-ingresos/bbdd/csv/2018/esi_2018_personas.csv")
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Importación de datos
+
+Las bases de datos de R tienen la extensión `.RData`. Para importar estas bases se usa el comando `load()`.
+
+
+```r
+load(file = "data/Censo_area.RData")
+```
+
+--
+
+Para evaluar la estructura de la base, utilizamos el comando `str()` que se vió en la primera sesión.
+
+
+```r
+str(base)
+```
+
+```
+## Classes 'tbl_df', 'tbl' and 'data.frame':	6464 obs. of  5 variables:
+##  $ CÓDIGO_REGIÓN: chr  "15" "15" "15" "15" ...
+##  $ EDAD         : chr  "0" "1" "2" "3" ...
+##  $ N            : num  135 120 123 129 133 133 151 147 146 132 ...
+##  $ AREA         : num  2 2 2 2 2 2 2 2 2 2 ...
+##  $ SEXO         : num  2 2 2 2 2 2 2 2 2 2 ...
+```
+
+--
+
+¿Qué tipo de dato es la base?
+
+--
+
+.small[
+Para mirar sobre las diferencias entre una tibble y un data.frame clásico pueden revisar este link de [*R for Data Science*](https://r4ds.had.co.nz/tibbles.html) o este post [stringAsFactors: An unauthorized biography](https://simplystatistics.org/2015/07/24/stringsasfactors-an-unauthorized-biography/)
+]
+
+---
+
+background-image: url("imagenes/transformer.gif")
+background-size: cover
+class: center, bottom, inverse
+
+# Transformación de datos
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+## El paquete `dplyr`
+
+
+.pull-left[
+
+Es un paquete desarrollado por Hardley Wickman de RStudio.
+
+Es una versión optimizada de un paquete anterior llamado `plyr`.
+ 
+El paquete `dplyr` proporciona una "gramatica" (particularmente verbos) para la manipulación y operaciones con data frames.
+ 
+`dplyr`, `readr`, `readxl` y `haven` son parte del universo de [`tidyverse`](https://www.tidyverse.org).
+
+]
+
+.pull-right[
+.center[
+![](https://d33wubrfki0l68.cloudfront.net/071952491ec4a6a532a3f70ecfa2507af4d341f9/c167c/images/hex-dplyr.png)
+]
+]
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+Veremos seis funciones del paquete `dplyr` para la manipulación de data frames:
+
+--
+
+- **select**: devuelve un conjunto de columnas.
+
+--
+
+- **filter**: devuelve un conjunto de filas según una o varias condiciones lógicas.
+
+--
+
+- **arrange**: reordena filas de un data frame.
+
+--
+
+- **rename**: renombra variables en un data frame.
+
+--
+
+- **mutate**: añade nuevas variables o transforma variables existentes.
+
+--
+
+- **summarise**: genera resúmenes estadísticos
+
+--
+
+Estas funciones serán algunas de nuestras mejores compañeras y siempre nos acompañarán en nuestro camino de programación.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+Todas estas funciones tienen en común una serie de argumentos.
+
+--
+
+- El primer argumento es el data frame.
+
+--
+
+- Los otros argumentos describen que hacer con el data frame especificado en el primer argumento.
+
+--
+
+- El valor de retorno es un nuevo data frame.
+
+--
+
+Una ventaja de estas funciones es que podemos referirnos a las columnas en el data frame directamente sin utilizar el operador `"$"`, es decir, solo con el nombre de la columna o variable.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+## Función `select()`
+
+--
+
+Esta función es utilizada para seleccionar columnas de un data frame. 
+
+--
+
+El orden definido en la selección de variables, es el orden que tendrán las columnas en el resultado.
+
+--
+
+La selección puede ser realizada...
+
+--
+
+.pull-left[
+...según nombre de la variable.
+
+
+```r
+library(dplyr)
+head(select(base, c(EDAD, N)))
+```
+
+```
+## # A tibble: 6 x 2
+##   EDAD      N
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 0       135
+## 2 1       120
+## 3 2       123
+## 4 3       129
+## 5 4       133
+## 6 5       133
+```
+]
+
+--
+
+.pull-right[
+...según índice de la variable.
+
+
+```r
+library(dplyr)
+head(select(base, 3, 2))
+```
+
+```
+## # A tibble: 6 x 2
+##       N EDAD 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1   135 0    
+## 2   120 1    
+## 3   123 2    
+## 4   129 3    
+## 5   133 4    
+## 6   133 5
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

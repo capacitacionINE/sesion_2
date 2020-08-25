@@ -43,3 +43,8 @@ base  <-  rbind(mujeres,hombres)
 names(base) <- toupper(names(base))
 
 save(list = c("base"),file = "data/Censo_area.RData")
+
+wb <- createWorkbook()
+addWorksheet(wb = wb, sheetName = "Hoja1")
+writeData(wb = wb, sheet = "Hoja1", x = base)
+saveWorkbook(wb = wb, file = "data/Censo_area.xlsx", overwrite = T)

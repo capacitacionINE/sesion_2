@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Proyecto Estratégico Servicios Compartidos para la Producción Estadística (SSCC)</title>
+    <title>Capacitación en R y herramientas de productividad</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
     <meta name="date" content="2020-08-25" />
@@ -20,8 +20,9 @@ class: center, middle
 
 &lt;img src="imagenes/logo_portada2.png" width="200" /&gt;
 
+## Capacitación en R y herramientas de productividad
 
-## Capacitación en R
+## Proyecto Estratégico Servicios Compartidos para la Producción Estadística
 
 ## Procesamiento de bases de datos
 
@@ -39,7 +40,7 @@ background-position: 100% 0%
 
 # Contenidos de hoy
 
-El objetivo de esta sesión es aprender a manipular data frame.
+El objetivo de esta sesión es aprender a manipular *data frames*.
 
 Para cumplir con el objetivo, revisaremos los siguientes temas:
 
@@ -53,15 +54,15 @@ Para cumplir con el objetivo, revisaremos los siguientes temas:
 
 --
 
-- Funciones del paquete **dplyr** para la manipulación de data frames.
+- Funciones del paquete `dplyr` para la manipulación de *data frames*.
 
 --
 
-- Encadenamiento de instrucciones: uso de **pipes**.
+- Encadenamiento de instrucciones: uso de *pipes*.
 
 --
 
-- Agrupación de unidades (**group_by**).
+- Agregación de unidades (`grupo_by`).
 
 ---
 
@@ -87,7 +88,7 @@ Corresponde a una colección de `funciones` diseñadas para atender distintas ta
 
 --
 
-- **¿Qué es una función**
+- **¿Qué se puede entender por función?**
 
 Corresponde a un conjunto de instrucciones que permite automatizar rutinas largas y/o complicadas.
 
@@ -137,12 +138,12 @@ Es el objeto más básico en R. Este objeto es una forma de almacenar datos.
 
 
 ```r
-x &lt;- c(1:2, seq(from = 0, to = 5, by = 2))
+x &lt;- c(1, 2, 5)
 print(x)
 ```
 
 ```
-## [1] 1 2 0 2 4
+## [1] 1 2 5
 ```
 
 ---
@@ -182,11 +183,11 @@ class(v)
 
 ```r
 v &lt;-  c(1L, 2.2)
-typeof(v)
+class(v)
 ```
 
 ```
-## [1] "double"
+## [1] "numeric"
 ```
 
 ---
@@ -311,11 +312,11 @@ length(c(1:10)) == length(seq(from = 1, to = 10, by = 2))
 
 
 ```r
-c(1:2, "perro", 10:12)[5] # El quinto elemento
+c("a", "a,b", "c")[3] # El tercer elemento
 ```
 
 ```
-## [1] "11"
+## [1] "c"
 ```
 
 ---
@@ -332,7 +333,7 @@ Es una estructura de datos de dos dimensiones (rectangular) que puede contener d
 
 --
 
-- **Comando $**
+- **Operador $**
 
 Se utiliza para vincular una variable con un objeto.
 
@@ -389,14 +390,15 @@ base_csv  &lt;-  read_csv(file = "ejemplo.csv")
 
 --
 
-- El paquete `readxl` nos permite importar archivos de Excel. Una de sus funciones es read_excel().
+- El paquete `readxl` nos permite importar archivos de Excel. Una de sus funciones es `read_excel()`.
 
 
 ```r
 # Para usar el paquete primero es necesario cargarlo
 library(readxl)
 # Al usar la función, asignamos el archivo a un valor
-base_excel  &lt;-  read_excel(file = "ejemplo_excel.xlsx", sheet="Hoja1")
+base_excel  &lt;-  read_excel(file = "ejemplo_excel.xlsx",
+                           sheet="Hoja1")
 ```
 
 ---
@@ -463,11 +465,12 @@ Al igual que los paquetes `readxl` o `readr` tiene funciones bastante explícita
 ```r
 # Cargar librería
 library(haven)
-# Se puede importar una base de datos desde una carpeta...
 esi &lt;-  read_dta("data/esi_2018_personas.dta")
-# ...o se puede descargar desde un sitio web
-esi &lt;-  read_csv("http://www.ine.cl/docs/default-source/encuesta-suplementaria-de-ingresos/bbdd/csv/2018/esi_2018_personas.csv")
 ```
+
+--
+
+La función `read_dta()` permite cargar bases de datos desde sitios web.
 
 ---
 
@@ -526,7 +529,7 @@ Esta función requiere indicar el nombre de la base a importar, así como la rut
 
 --
 
-**IMPORTANTE**: al escribir la ruta, se debe utilizar el símbolo `/`.
+**IMPORTANTE**: al escribir la ruta, se debe utilizar el símbolo "**`/`**".
 
 --
 
@@ -583,7 +586,7 @@ background-position: 100% 0%
 
 Para la manipulación de los data frames existe un paquete llamado **`dplyr`**.
 
-Este paquete fue desarrollado por Hardley Wickman de RStudio.
+Este paquete fue desarrollado por Hadley Wickham de RStudio.
 
 Es una versión optimizada de un paquete anterior llamado `plyr`.
  
@@ -635,7 +638,7 @@ Durante esta sesión veremos siete funciones del paquete **`dplyr`** que se util
 
 --
 
-- **summarise**: genera resúmenes estadísticos.
+- **summarise**: genera resúmenes de datos.
 
 --
 
@@ -657,7 +660,7 @@ Todas estas funciones tienen en común una serie de argumentos:
 
 --
 
-- Los otros argumentos describen que hacer con el data frame especificado en el primer argumento.
+- Los otros argumentos describen qué hacer con el data frame especificado en el primer argumento.
 
 --
 
@@ -677,11 +680,11 @@ background-position: 100% 0%
 
 ## Función `select()`
 
-La primera función que veremos es la función **`select()`**.
+La primera función que veremos es la función `select()`.
 
 --
 
-Esta función fue vista en la sesión anterior, y es utilizada para seleccionar columnas dentro de un data frame.
+Esta función es utilizada para seleccionar columnas dentro de un data frame.
 
 --
 
@@ -717,7 +720,7 @@ La selección puede ser realizada...
 
 ```r
 library(dplyr)
-head(select(base, c(EDAD, N)))
+head(select(base, EDAD, N))
 ```
 
 ```
@@ -767,51 +770,36 @@ background-position: 100% 0%
 
 ## Función `select()`
 
-Esta función permite utilizar varias **`funciones auxiliares`** para indicar las columnas a extraer:
+Otra forma de seleccionar consiste en definir qué columnas no se seleccionarán. Para esto es necesario incluir el signo menos ("**`-`**") antes de las columnas a seleccionar
 
 --
 
-- **Al incluir el signo menos ("`-`") antes de la selección**: se indica que columnas **NO** serán extraídas.
+Esta manera de seleccionar se puede entender como "la eliminación de columnas".
 
 --
 
-- **Al incluir "`:`" entre los indicadores de columnas**: permite seleccionar un rango de variables.
+Realicemos un ejercicio...
 
 --
 
-- **La función "`starts_with`"**: selecciona todas las columnas que comienzan con el patrón indicado.
+En un objeto llamado `ejemplo`, seleccionar solo las primeras 3 columnas del objeto `base`.
 
 --
 
-- **La función "`ends_with`"**: selecciona todas las columnas que terminen con el patrón indicado.
 
----
+```r
+head(select(base, -4, -5), n = 4)
+```
 
-background-image: url("imagenes/fondo2.PNG")
-background-size: contain;
-background-position: 100% 0%
-
-# Transformación de datos
-
-## Función `select()`
-
-- **La función "`contains`"**: selecciona las columnas que posean el patrón indicado.
-
---
-
-- **La función "`matches`"**: funciona similar a contains, pero permite poner una [`expresión regular`](https://rpubs.com/ydmarinb/429756).
-
---
-
-Una expresión regular corresponde a una secuencia de caracteres que forma un patron de búsqueda.
-
---
-
-- **La función "`everything`"**: sirve como bolsa para seleccionar todas las variables no seleccionadas explícitamente.
-
---
-
-- **La función "`one_of`"**: selecciona variables cuyo nombre están en un grupo de nombres.
+```
+## # A tibble: 4 x 3
+##   CÓDIGO_REGIÓN EDAD      N
+##   &lt;chr&gt;         &lt;chr&gt; &lt;dbl&gt;
+## 1 15            0       135
+## 2 15            1       120
+## 3 15            2       123
+## 4 15            3       129
+```
 
 ---
 
@@ -833,9 +821,10 @@ Creemos un data frame:
 ```r
 df &lt;- data.frame(x1 = c(1:3),
                  x2 = c(1,7,2),
-                 x3 = c("a","b","c"),
+                 y3 = c("a","b","c"),
                  x4 = c(5,-1,8),
-                 x5 = c("perro","gato","conejo"))
+                 x5 = c("perro","gato","conejo"),
+                 y1 = c(1, "perro", "gato"))
 ```
 
 --
@@ -848,7 +837,51 @@ Ahora que creamos el data frame, realicemos algunas selecciones:
 
 --
 
-- Reordenemos las columnas en el siguiente orden: x1, x5, x3, x2 y x4.
+- Reordenemos las columnas en el siguiente orden: x1, y1, x5, y3, x2 y x4.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+## Función `select()`
+
+Cuando trabajamos con bases de datos, a veces nos encontramos con variables cuyo nombre sigue cierto patrón, por ejemplo:
+
+- La primera letra es la misma (a1, a2, a3).
+
+- La variable posee un mismo sufijo (a1_otro, a2_otro, a3_otro)
+
+--
+
+Existen funciones auxiliares a `select()`, las cuales permiten trabajar con ciertos patrones.
+
+--
+
+Una que utilizaremos reiteradas veces dentro de las siguientes secciones es `starts_with()`. 
+--
+Esta función auxiliar se utiliza para identificar las variables que comienzan con un cierto prefijo.
+
+--
+
+Por ejemplo, seleccionemos las variables que comienzan con la letra "**x**".
+
+--
+
+
+```r
+head(select(df, starts_with("x")))
+```
+
+```
+##   x1 x2 x4     x5
+## 1  1  1  5  perro
+## 2  2  7 -1   gato
+## 3  3  2  8 conejo
+```
 
 ---
 
@@ -892,24 +925,6 @@ background-position: 100% 0%
 
 --
 
-.center[
-&lt;img src="imagenes/logicos.png" width="600" /&gt;
-]
-
---
-
-La figura pertenece a [`R para ciencia de datos`](https://es.r4ds.hadley.nz/index.htmlhttps://es.r4ds.hadley.nz/index.html).
-
----
-
-background-image: url("imagenes/fondo2.PNG")
-background-size: contain;
-background-position: 100% 0%
-
-# Transformación de datos
-
-## Función `filter()`
-
 Por ejemplo, si queremos filtrar nuestra base, y seleccionar a las mujeres de la región 6 y de edad 35, debemos hacer lo siguiente...
 
 --
@@ -917,7 +932,7 @@ Por ejemplo, si queremos filtrar nuestra base, y seleccionar a las mujeres de la
 
 ```r
 library(dplyr)
-filter(.data = base, SEXO == 2 &amp; CÓDIGO_REGIÓN == 6 &amp; EDAD == 35)
+filter(base, SEXO == 2 &amp; CÓDIGO_REGIÓN == 6 &amp; EDAD == 35)
 ```
 
 ```
@@ -964,15 +979,16 @@ Como se vio en la sesión anterior, esta función se utiliza para reordenar las 
 
 
 ```r
-library(dplyr)
-arrange(.data = df,x4,desc(x2))
+head(arrange(base,desc(SEXO),N),n=3)
 ```
 
 ```
-##   x1 x2 x3 x4     x5
-## 1  2  7  b -1   gato
-## 2  1  1  a  5  perro
-## 3  3  2  c  8 conejo
+## # A tibble: 3 x 5
+##   CÓDIGO_REGIÓN EDAD      N  AREA  SEXO
+##   &lt;chr&gt;         &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 15            96        0     2     2
+## 2 2             95        0     2     2
+## 3 2             96        0     2     2
 ```
 
 ---
@@ -1001,13 +1017,12 @@ Para obtener el nombre de las variables en un data frame se utiliza la función 
 
 
 ```r
-library(dplyr)
 # Función para obtener nombres de las columnas
 names(df)
 ```
 
 ```
-## [1] "x1" "x2" "x3" "x4" "x5"
+## [1] "x1" "x2" "y3" "x4" "x5" "y1"
 ```
 
 ---
@@ -1020,36 +1035,38 @@ background-position: 100% 0%
 
 ## Función `rename()`
 
-Una forma de renombrar una variable es la siguiente...
+La función **`rename`** permite renombrar una variable o más de un variable cada vez.
 
 --
 
 
 ```r
-library(dplyr)
-# Renombrar una columna
-names(df)[names(df) == "x1"] &lt;- "var1"
+df &lt;- rename(df, var1 = x1, var5 = x5)
+head(df)
+```
+
+```
+##   var1 x2 y3 x4   var5    y1
+## 1    1  1  a  5  perro     1
+## 2    2  7  b -1   gato perro
+## 3    3  2  c  8 conejo  gato
 ```
 
 --
 
-...y otra es utilizando la función **`rename`**.
-
---
+La función **`rename_all`** permite renombrar todas las variables dentro de un data frame, y combinado con la función `tolower` permite pasar a minúscula todos los nombres.
 
 
 ```r
-library(dplyr)
-# Renombrar una columna
-rename(.data = df,var2 = x2)
+base &lt;- rename_all(base, tolower)
+names(base)
 ```
 
 ```
-##   var1 var2 x3 x4     x5
-## 1    1    1  a  5  perro
-## 2    2    7  b -1   gato
-## 3    3    2  c  8 conejo
+## [1] "código_región" "edad"          "n"             "area"         
+## [5] "sexo"
 ```
+
 ---
 
 background-image: url("imagenes/fondo2.PNG")
@@ -1074,7 +1091,6 @@ Algunas de las transformaciones posibles son:
 
 
 ```r
-library(dplyr)
 # Cambiar el formato de una variable
 class(df$x4)
 ```
@@ -1084,7 +1100,7 @@ class(df$x4)
 ```
 
 ```r
-df &lt;- mutate(.data = df, x4 = as.character(x4))
+df &lt;- mutate(df, x4 = as.character(x4))
 class(df$x4)
 ```
 
@@ -1104,25 +1120,65 @@ background-position: 100% 0%
 
 - Modificar el valor de alguna variable.
 
-En este caso se requiere la utilización de una función auxiliar llamada **`if_else()`**. Esta función trabaja con los siguientes argumentos: `condition`, `true`, `false` y `missing`.
+En este caso se requiere la utilización de una función auxiliar llamada `ifelse()`. Esta función trabaja con los siguientes argumentos: *test*, *yes* y *no*.
 
 --
 
 
 ```r
-library(dplyr)
 # Modificar la edad "100 o más" por 100
-base &lt;- mutate(.data = base,
-               EDAD = if_else(condition = EDAD == "100 o más",
-                              true = "100",
-                              false = EDAD))
-table(base$EDAD == "100")
+base &lt;- mutate(base,
+               edad = ifelse(test = edad == "100 o más",
+                             yes = "100",
+                             no = edad))
+table(base$edad == "100")
 ```
 
 ```
 ## 
 ## FALSE  TRUE 
 ##  6400    64
+```
+
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Transformación de datos
+
+## Función `mutate()`
+
+- Permite utilizar variables del data frame para transformar otras.
+
+--
+
+Un mini ejercicio:
+--
+ utilizando el objeto **`base`**, generar una variable llamada `tramos_edad`, la cual agrupe a las personas en 3 tramos (0-30, 31-60, 61-100).
+ 
+--
+
+
+```r
+# Cambiar el formato de una variable
+base &lt;- mutate(base,
+               edad = as.numeric(edad))
+base &lt;- mutate(base,
+               tramos_edad = ifelse((edad %in% 0:30),
+                                    1,
+                                    ifelse((edad %in% 31:60),
+                                           2,
+                                           3)))
+table(base$tramos_edad, useNA = "always")
+```
+
+```
+## 
+##    1    2    3 &lt;NA&gt; 
+## 1984 1920 2560    0
 ```
 
 ---
@@ -1153,18 +1209,17 @@ Utilizando el data frame `df`, generar una variable `x1` con los mismos valores 
 
 
 ```r
-library(dplyr)
-df &lt;- mutate(.data = df,
+df &lt;- mutate(df,
             x1 = var1,
             x6 = x1 + x2)
 head(df)
 ```
 
 ```
-##   var1 x2 x3 x4     x5 x1 x6
-## 1    1  1  a  5  perro  1  2
-## 2    2  7  b -1   gato  2  9
-## 3    3  2  c  8 conejo  3  5
+##   var1 x2 y3 x4   var5    y1 x1 x6
+## 1    1  1  a  5  perro     1  1  2
+## 2    2  7  b -1   gato perro  2  9
+## 3    3  2  c  8 conejo  gato  3  5
 ```
 
 ---
@@ -1175,21 +1230,23 @@ background-position: 100% 0%
 
 # Transformación de datos
 
-Hasta ahora hemos visto como `renombrar` variables, como `seleccionar` columnas, como `filtrar` filas, como `reordenar` las filas y como `crear/transformar` variables en un data frame.
+Hasta ahora hemos visto cómo `renombrar` variables, cómo `seleccionar` columnas, cómo `filtrar` filas, cómo `reordenar` las filas y cómo `crear/transformar` variables en un data frame.
 
 --
 
 Realicemos un ejercicio aplicando lo aprendido:
 
-- Utilizando el data frame `base`, renombrar la variable `CÓDIGO_REGIÓN` y asignarle el nombre `Region`. El resultado guardarlo en el objeto `resultado`.
+- Utilizando el data frame `base`, renombrar la variable `código_región` y asignarle el nombre `region`. El resultado guardarlo en el objeto `resultado`.
 
 Las siguientes transformaciones realizarlas sobre el objeto `resultado`.
 
-- Reordenar las columnas de forma tal que la columna `N` corresponda a la última columna del data frame.
+- Reordenar las columnas de forma tal que la columna `n` corresponda a la última columna del data frame.
 
-- Cambiar el formato de las variables `Región` y `EDAD`, y convertirlas en variables numéricas (usar `as.numeric()`).
+- Cambiar el formato de las variables `region` y `edad`, y convertirlas en variables numéricas (usar `as.numeric()`).
 
-- Reordenar las filas de acuerdo a: `Región`, `EDAD` y `SEXO`.
+- Filtrar el objetivo, y solo quedar con los registros que correspondan a mujeres (sexo == 2) con región distinta a la 1 (region == 6).
+
+- Reordenar las filas de acuerdo a: `region` y `edad`.
 
 ---
 
@@ -1203,29 +1260,28 @@ El resultado es el siguiente:
 
 
 ```r
-library(dplyr)
 # Renombrar
-resultado &lt;- rename(.data = base, Region = CÓDIGO_REGIÓN)
+resultado &lt;- rename(base, region = código_región)
 # Seleccionar
-resultado &lt;- select(.data = resultado, c(1,2,4,5,3))
+resultado &lt;- select(resultado, c(1,2,4,5,3))
 # Cambiar el formato
-resultado &lt;- mutate(.data = resultado, Region = as.numeric(Region),
-                    EDAD = as.numeric(EDAD))
+resultado &lt;- mutate(resultado, region = as.numeric(region),
+                    edad = as.numeric(edad))
+# Cambiar el formato
+resultado &lt;- filter(resultado, (sexo == 2 &amp; region == 6))
 # Reordenar filas
-resultado &lt;- arrange(.data = resultado, Region, EDAD, SEXO)
+resultado &lt;- arrange(resultado, region, edad)
 # Miremos el resultado
-head(resultado, n = 5)
+head(resultado, n = 3)
 ```
 
 ```
-## # A tibble: 5 x 5
-##   Region  EDAD  AREA  SEXO     N
+## # A tibble: 3 x 5
+##   region  edad  area  sexo     n
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1      1     0     2     1    77
-## 2      1     0     1     1  2439
-## 3      1     0     2     2    81
-## 4      1     0     1     2  2375
-## 5      1     1     2     1    85
+## 1      6     0     2     2  1264
+## 2      6     0     1     2  4246
+## 3      6     1     2     2  1367
 ```
 
 --
@@ -1262,11 +1318,277 @@ Este operador nos ayudará enormemente a mejorar la legibilidad de un código.
 
 --
 
-El atajo para escribir `pipes` en Windos es: ctrl + shift + M.
+Utilizando pipes, el resultado del ejercicio anterior es posible escribirlo de la siguiente manera:
 
-En Mac es: cmd + shif + M
+
+```r
+library(dplyr)
+resultado &lt;- base %&gt;% # data frame a manipular
+  rename(region = código_región) %&gt;% # renombrar
+  select(1,2,4,5,3) %&gt;% # seleccionar columnas
+  mutate(region = as.numeric(region),
+         edad = as.numeric(edad)) %&gt;% # cambiar formatos
+  filter(sexo == 2 &amp; region == 6) %&gt;% # filtrar data frame
+  arrange(region, edad) # ordenar filas
+```
+
+---
+
+background-image: url("imagenes/group_by_ungroup.png")
+background-size: 100% 100%
+class: center, bottom, inverse
+
+# &lt;font color = "blue"&gt;Agrupación de unidades&lt;/font&gt;
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Resumen de información
+
+Para la generación de tablas de resumen de información se utilizan dos funciones: 
+
+- `group_by()`
+- `summarise()`
 
 --
+
+La función `group_by()` permite agrupar a las observaciones según una categoría de una variable y aplicarles alguna función.
+
+--
+
+Esto resulta muy útil pues muchos nuestros análisis estadísticos se aplican sobre grupos definidos por una variable o una combinación de variables (sexo, región, comuna, etc).
+ 
+--
+
+Gran parte del análisis de datos que realizamos involucra la aplicación de una estrategia que en inglés se acuña como *split-apply-combine*.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Resumen de información
+
+.center[
+&lt;img src="imagenes/group.png" width="400" /&gt;
+]
+
+- Primero `group_by()` divide el *data frame*.
+
+- Luego opera una función con la data fragmentada.
+
+- Finalmente `group_by()` vuelve a combinar los resultados.
+
+--
+
+¿Qué funciones podemos aplicar sobre la data fragmentada?
+
+--
+
+Todas las funciones que hemos visto durante esta sesión pueden ser combinadas con `group_by()`, pero una que funciona perfectamente es `summarise()`.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Resumen de información
+
+La función `summarise()` crea una o más escalares resumiendo información de variables existentes en un data frame.
+
+--
+
+En combinación con otras funciones, es una manera de tabular información.
+
+--
+
+Algunas funciones que se pueden operar dentro de `summarise()` son:
+
+--
+
+- Tendencia central: `mean()`, `median()`.
+
+--
+
+- Rango: `min()`, `max()`. `quantile()`.
+
+--
+
+- Posición: `first()`, `last()`.
+
+--
+
+- Conteo: `n()`, `n_distinct()`.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Resumen de información
+
+Ahora que ya conocemos estas funciones: ¿cuántas hombres hay por tipo de área y región?
+
+--
+
+Para resolver a la pregunta, tomamos el objeto **resultado**, filtramos a los hombres, agrupamos por tipo de área y región, y obtenemos la suma de "n".
+
+--
+
+
+```r
+base %&gt;%
+  rename(region = código_región) %&gt;%
+  filter(sexo == 1 &amp; region == 12) %&gt;%
+  group_by(area, tramos_edad) %&gt;%
+  summarise(total = sum(n)) %&gt;%
+  ungroup()
+```
+
+```
+## # A tibble: 6 x 3
+##    area tramos_edad total
+##   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1     1           1 33501
+## 2     1           2 31558
+## 3     1           3 11056
+## 4     2           1  3553
+## 5     2           2  4406
+## 6     2           3  1175
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Resumen de información
+
+Revisemos el ejercicio bonus de la tarea 1: ¿cuál es el nombre más usado en Chile en todos los tiempos?
+
+--
+
+Lo primero que tenemos que hacer es cargar la librería **guaguas**, luego asignar la base de guaguas a un objeto llamado guaguas, por último, debemos generar el cuadro resumen.
+
+--
+
+
+```r
+library(guaguas)
+guaguas &lt;- guaguas
+guaguas %&gt;%
+  group_by(nombre) %&gt;%
+  summarise(total = sum(n)) %&gt;%
+  arrange(desc(total)) %&gt;%
+  slice(1) %&gt;%
+  select(nombre)
+```
+
+```
+## # A tibble: 1 x 1
+##   nombre
+##   &lt;chr&gt; 
+## 1 María
+```
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Ejercicio para la 🏠
+
+--
+
+Vamos a trabajar con una base real de la **Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC)**, que levanta el INE año a año. Utilizaremos la última versión publicada (2019). 
+
+--
+
+Para la ENUSC, un **hogar victimizado** es aquel en el cual durante el último año **alguno de sus miembros fue víctima de al menos uno de los siguientes delitos:** 
+
+--
+
+- robo con intimidación (**A1_1_1**)
+- robo por sorpresa (**B1_1_1**)
+- robo con fuerza en la vivienda (**C1_1_1**)
+- hurto (**D1_1_1**)
+- lesiones (**E1_1_1**)
+- robo de vehículo (**G1_1_1**)
+- robo desde vehículo (**H1_1_1**)
+
+--
+
+Es decir, basta con tener un valor 1 (sí) en cualquiera de estas variables para que este hogar sea **victimizado**.
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Ejercicio para la 🏠
+
+## Ahora sí el ejercicio:
+
+En primer lugar debes Descargar la base de datos 2019 desde el [sitio de la ENUSC en la página del INE](https://www.ine.cl/estadisticas/sociales/seguridad-publica-y-justicia/seguridad-ciudadana). Puedes descargarla en formato .csv o en .sav (SPSS).  Crea o escoge un fichero en tu computador y descomprimer el archivo ahí.
+
+--
+
+1- Utilizando las funciones de **importación** aprendidas, carga la base de datos en tu entorno de trabajo de **R**.
+
+--
+
+2- ¿Cuántas observaciones y cuantas variables tiene la base?
+
+--
+
+3- La base es un poco **grande** y los nombres de las variables **poco intuitivos** 😵. Simplifiquemos la base:
+
+--
+
+    - filtrando solo a los informantes de la encuesta (Kish == 1).
+    
+    - seleccionando solo las variables que que usaremos (`enc_region` y   
+    las variables de victimización indicadas en la lámina anterior)
+    
+    - y renombrando estas variables para hacerlas más entendibles (sugerencia: region,
+    intimidacion, sorpresa, fuerza_viv, hurto, lesiones, de_vehiculo, desde_vehiculo) 
+    
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Ejercicio para la 🏠
+
+--
+    
+  Puedes hacer todo lo anterior en una sola instrucción usando `pipes` (`%&gt;%`). Te recomendamos guardarla en un objeto diferente, por ejemplo: `enusc_2`.
+  
+--
+
+ 4- ¿Cuántas observaciones y cuantas variables tiene tu base ahora?
+
+--
+
+ 5- Ahora, Genera una **variable dicotómica con valores 0 y 1** que indique, a partir de las variables de delitos, si un hogar ha sido víctima de al menos un delito. Crearla dentro de la base de datos y ponerle como nombre `VA_DC_2`.
+
+--
+
+ 6- Compara la victimización agregada que calculamos (`VA_DC_2`) con la que ya viene construida en la base original (`VA_DC`). ¿Son iguales?
+
+--
+
+ 7- Crear una tabla que muestre la victimización agregada para cada región (**Sin usar factores de expansión**).
 
 
 ---
@@ -1275,20 +1597,74 @@ background-image: url("imagenes/fondo2.PNG")
 background-size: contain;
 background-position: 100% 0%
 
-# Uso de pipes
+# Ejercicio para la 🏠
 
-Utilizando pipes, el resultado del ejercicio anterior es posible escribirlo de la siguiente manera:
+**hint 1** 👀:
+
+Puedes usar `ifelse()`, a través de mutate, para generar variables dicotómicas.
 
 
 ```r
-library(dplyr)
-resultado &lt;- base %&gt;%
-  rename(Región = CÓDIGO_REGIÓN) %&gt;%
-  select(1,2,4,5,3) %&gt;%
-  mutate(Región = as.numeric(Región),
-         EDAD = as.numeric(EDAD)) %&gt;%
-  arrange(Región, EDAD, SEXO)
+enusc_2 &lt;- enusc_2 %&gt;% 
+  mutate(intimidacion = ifelse(intimidacion==1,1,0))
 ```
+
+--
+
+**hint 2** 🕵:
+
+Existe una función llamada `rowSums()`. que te podría servir para sumar un total fila sobre un set de variables.
+
+--
+
+**hint 3** 🥸:
+
+Los valores `NA` son muy contagiosos. Puedes evitar su influencia usando el argumento `na.rm = TRUE`.
+
+
+.center[🤔🧠]
+
+---
+
+background-image: url("imagenes/fondo2.PNG")
+background-size: contain;
+background-position: 100% 0%
+
+# Referencias
+
+Nada de esto sería posible sin:
+
+- [`R fot Data Science, de Hadley Wickham`](https://r4ds.had.co.nz/)
+
+- [`Advanced R, de Hadley Wickham`](http://adv-r.had.co.nz/Introduction.html)
+
+- [`Data wrangling, exploration, and analysis with R, de Jenny Bryan`](https://stat545.com/index.html)
+
+- [`Introduction to R, de Data Carpentry`](https://datacarpentry.org/R-genomics/01-intro-to-R.html#functions)
+
+- [`Xaringan: Presentation Ninja, de Yihui Xie`](https://github.com/yihui/xaringan). Para generar esta presentación con la planilla ninja ⚔
+
+R for Data Science tiene una traducción al español realizada por la comunidad hispana de R:
+
+- [`R para ciencia de datos, de Hadley Wickham`](https://es.r4ds.hadley.nz/)
+
+---
+
+class: center, middle
+
+.linea-superior[]
+.linea-inferior[]
+
+
+&lt;img src="imagenes/logo_portada2.png" width="200" /&gt;
+
+## Capacitación en R y herramientas de productividad
+
+## Proyecto Estratégico Servicios Compartidos para la Producción Estadística
+
+## Procesamiento de bases de datos
+
+### Agosto 2020
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -4,7 +4,7 @@
     <title>Capacitación en R y herramientas de productividad</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <meta name="date" content="2020-08-25" />
+    <meta name="date" content="2020-09-01" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -62,7 +62,7 @@ Para cumplir con el objetivo, revisaremos los siguientes temas:
 
 --
 
-- Agregación de unidades (`grupo_by`).
+- Agregación de unidades (`group_by`).
 
 ---
 
@@ -397,7 +397,7 @@ base_csv  &lt;-  read_csv(file = "ejemplo.csv")
 # Para usar el paquete primero es necesario cargarlo
 library(readxl)
 # Al usar la función, asignamos el archivo a un valor
-base_excel  &lt;-  read_excel(file = "ejemplo_excel.xlsx",
+base_excel  &lt;-  read_excel(path = "ejemplo_excel.xlsx",
                            sheet="Hoja1")
 ```
 
@@ -1526,7 +1526,7 @@ Para la ENUSC, un **hogar victimizado** es aquel en el cual durante el último a
 
 --
 
-Es decir, basta con tener un valor 1 (sí) en cualquiera de estas variables para que este hogar sea **victimizado**.
+Es decir, basta con tener un valor 1 (sí) en cualquiera de estas variables para que este hogar sea **victimizado (VA_DC == 1)**.
 
 ---
 
@@ -1538,7 +1538,7 @@ background-position: 100% 0%
 
 ## Ahora sí el ejercicio:
 
-En primer lugar debes Descargar la base de datos 2019 desde el [sitio de la ENUSC en la página del INE](https://www.ine.cl/estadisticas/sociales/seguridad-publica-y-justicia/seguridad-ciudadana). Puedes descargarla en formato .csv o en .sav (SPSS).  Crea o escoge un fichero en tu computador y descomprimer el archivo ahí.
+En primer lugar debes descargar la base de datos 2019 desde el [sitio de la ENUSC en la página del INE](https://www.ine.cl/estadisticas/sociales/seguridad-publica-y-justicia/seguridad-ciudadana). Puedes descargarla en formato .csv o en .sav (SPSS). Crea o escoge un fichero en tu computador y descomprimer el archivo ahí. Si deseas, renombra la base de datos para facilitar el trabajo con ella.
 
 --
 
@@ -1556,7 +1556,7 @@ En primer lugar debes Descargar la base de datos 2019 desde el [sitio de la ENUS
 
     - filtrando solo a los informantes de la encuesta (Kish == 1).
     
-    - seleccionando solo las variables que que usaremos (`enc_region` y   
+    - seleccionando solo las variables que que usaremos (`enc_region`, `VA_DC` y   
     las variables de victimización indicadas en la lámina anterior)
     
     - y renombrando estas variables para hacerlas más entendibles (sugerencia: region,
